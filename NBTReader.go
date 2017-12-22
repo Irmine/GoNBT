@@ -17,6 +17,7 @@ func (reader *NBTReader) ReadIntoCompound() *Compound {
 	var tag = reader.GetTag()
 	if compound, ok := tag.(*Compound); ok {
 		compound.Read(reader)
+		return compound
 	}
 	return nil
 }
@@ -28,8 +29,10 @@ func (reader *NBTReader) GetTag() INamedTag {
 	if reader.Feof() {
 		return NewEnd("")
 	}
+
 	var tagId = reader.GetByte()
 	var tagCheck = GetTagById(tagId, "")
+
 	if tagCheck == nil {
 		return nil
 	}

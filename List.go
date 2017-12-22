@@ -17,8 +17,16 @@ func NewList(name string, tagType byte, tags []INamedTag) *List {
 	return &List{NewNamedTag(name, TAG_List, nil), tags, tagType}
 }
 
+// Read reads all payloads into their right tags and puts them into the list.
 func (list *List) Read(reader *NBTReader) {
+	list.tagType = reader.GetByte()
+	var length = reader.GetInt()
 
+	for i := int32(0); i < length && !reader.Feof(); i++ {
+		var tag = GetTagById(list.tagType, "")
+		tag.Read(reader)
+		list.tags = append(list.tags, tag)
+	}
 }
 
 
@@ -88,7 +96,7 @@ func (list *List) toString(nestingLevel int) string {
 			str += list.toString(nestingLevel + 1)
 		} else {
 			if compound, ok := tag.(*Compound); ok {
-				str += compound.toString(nestingLevel + 1)
+				str += compound.toString(nestingLevel + 1, true)
 			} else {
 				str += strings.Repeat(" ", (nestingLevel + 1) * 2)
 				str += GetTagName(tag.GetTagType()) + "(None): " + fmt.Sprint(tag.Interface()) + "\n"

@@ -12,6 +12,9 @@ type Compound struct {
 }
 
 func NewCompound(name string, tags map[string]INamedTag) *Compound {
+	if tags == nil {
+		tags = make(map[string]INamedTag)
+	}
 	return &Compound{NewNamedTag(name, TAG_Compound, nil), tags}
 }
 
@@ -24,6 +27,8 @@ func (compound *Compound) Read(reader *NBTReader) {
 			return
 		}
 		tag.Read(reader)
+
+		compound.tags[tag.GetName()] = tag
 	}
 }
 
@@ -216,14 +221,20 @@ func (compound *Compound) Interface() interface{} {
 
 
 // toString converts the entire compound to a readable string. Nesting level is used to indicate indentation.
-func (compound *Compound) toString(nestingLevel int) string {
+func (compound *Compound) toString(nestingLevel int, inList bool) string {
 	var str = strings.Repeat(" ", nestingLevel * 2)
 	var entries = " entries"
+
 	if len(compound.tags) == 1 {
 		entries = " entry"
 	}
 
-	str += "TAG_Compound('" + compound.GetName() + "'): " + strconv.Itoa(len(compound.tags)) + entries + "\n"
+	var name = "'" + compound.GetName() + "'"
+	if inList {
+		name = "None"
+	}
+
+	str += "TAG_Compound(" + name + "): " + strconv.Itoa(len(compound.tags)) + entries + "\n"
 	str += strings.Repeat(" ", nestingLevel * 2) + "{\n"
 
 	for _, tag := range compound.tags {
@@ -231,7 +242,7 @@ func (compound *Compound) toString(nestingLevel int) string {
 			str += list.toString(nestingLevel + 1)
 		} else {
 			if compound, ok := tag.(*Compound); ok {
-				str += compound.toString(nestingLevel + 1)
+				str += compound.toString(nestingLevel + 1, false)
 			} else {
 				str += strings.Repeat(" ", (nestingLevel + 1) * 2)
 				str += tag.ToString()
@@ -246,5 +257,5 @@ func (compound *Compound) toString(nestingLevel int) string {
 // ToString converts the entire compound to an uncompressed string.
 
 func (compound *Compound) ToString() string {
-	return compound.toString(0)
+	return compound.toString(0, false)
 }

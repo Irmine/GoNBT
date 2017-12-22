@@ -13,29 +13,32 @@ const (
 )
 
 func Read(buffer *[]byte, offset *int, length int) []byte {
-	bytes := make([]byte, 0)
+	if length == 0 {
+		return []byte{}
+	}
+	b := make([]byte, 0)
 	if *offset >= len(*buffer) {
 		fmt.Printf("An error occurred: %v", "no bytes left to read")
 		panic("Aborting...")
 	}
 	if length > 1 {
 		for i := 0; i < length; i++ {
-			bytes = append(bytes, (*buffer)[*offset])
+			b = append(b, (*buffer)[*offset])
 			*offset++
 		}
-		return bytes
+		return b
 	} else if length == -1 {
 		for {
 			if *offset >= len(*buffer) - 1 {
 				break
 			}
-			bytes = append(bytes, (*buffer)[*offset])
+			b = append(b, (*buffer)[*offset])
 			*offset++
 		}
 	}
-	bytes = append(bytes, (*buffer)[*offset])
+	b = append(b, (*buffer)[*offset])
 	*offset++
-	return bytes
+	return b
 }
 
 func Write(buffer *[]byte, v byte){
@@ -93,22 +96,20 @@ func ReadShort(buffer *[]byte, offset *int, endian byte) int16 {
 		return ReadLittleShort(buffer, offset)
 	}
 
-	var v uint
-	var i uint
 	var out int
 	b := Read(buffer, offset, 2)
-	len2 := uint(len(b))
-	v = uint(len2 * 8) - 8
+	var v uint = 8
 
-	for i = 0; i < len2; i++ {
+	for i := 0; i < len(b); i++ {
 		if i == 0 {
 			out = int(b[i]) << v
 			v -= 8
-			continue
+			break
 		}
 		out |= int(b[i]) << v
 		v -= 8
 	}
+
 	return int16(out)
 }
 
@@ -146,6 +147,7 @@ func ReadUnsignedShort(buffer *[]byte, offset *int, endian byte) uint16 {
 		out |= int(b[i]) << v
 		v -= 8
 	}
+
 	return uint16(out)
 }
 
@@ -543,7 +545,7 @@ func WriteString(buffer *[]byte, string string, network bool, endian byte) {
 	if network {
 		WriteUnsignedVarInt(buffer, uint32(len2))
 	} else {
-		WriteShort(buffer, int16(len2), endian)
+		WriteUnsignedShort(buffer, uint16(len2), endian)
 	}
 	for i := 0; i < len2; i++ {
 		WriteByte(buffer, byte(string[i]))
@@ -555,7 +557,7 @@ func ReadString(buffer *[]byte, offset *int, network bool, endian byte) string {
 	if network {
 		length = int(ReadUnsignedVarInt(buffer, offset))
 	} else {
-		length = int(ReadShort(buffer, offset, endian))
+		length = int(ReadUnsignedShort(buffer, offset, endian))
 	}
 	b := Read(buffer, offset, length)
 	return string(b)
