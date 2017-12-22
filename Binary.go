@@ -81,8 +81,8 @@ func WriteShort(buffer *[]byte, signed int16, endian byte) {
 	var i uint
 	var v uint
 	len2 := uint(2)
-	v = uint(len2 * 8)-8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8)-8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(signed >> v))
 		v -= 8
 	}
@@ -98,7 +98,7 @@ func ReadShort(buffer *[]byte, offset *int, endian byte) int16 {
 	var out int
 	bytes := Read(buffer, offset, 2)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 
 	for i = 0; i < len2; i++ {
 		if i == 0 {
@@ -120,8 +120,8 @@ func WriteUnsignedShort(buffer *[]byte, int uint16, endian byte) {
 	var i uint
 	var v uint
 	len2 := uint(2)
-	v = uint(len2 * 8) - 8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8) - 8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(int >> v))
 		v -= 8
 	}
@@ -136,7 +136,7 @@ func ReadUnsignedShort(buffer *[]byte, offset *int, endian byte) uint16 {
 	var out int
 	bytes := Read(buffer, offset, 2)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = int(bytes[i]) << v
@@ -162,8 +162,8 @@ func WriteInt(buffer *[]byte, int int32, network bool, endian byte) {
 	var i uint
 	var v uint
 	len2 := uint(4)
-	v = uint(len2 * 8) - 8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8) - 8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(int >> v))
 		v -= 8
 	}
@@ -182,7 +182,7 @@ func ReadInt(buffer *[]byte, offset *int, network bool, endian byte) int32 {
 	var out int
 	bytes := Read(buffer, offset, 4)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = int(bytes[i]) << v
@@ -208,8 +208,8 @@ func WriteLong(buffer *[]byte, int int64, network bool, endian byte) {
 	var i uint
 	var v uint
 	len2 := uint(8)
-	v = uint(len2 * 8)-8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8)-8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(int >> v))
 		v -= 8
 	}
@@ -228,7 +228,7 @@ func ReadLong(buffer *[]byte, offset *int, network bool, endian byte) int64 {
 	var out int
 	bytes := Read(buffer, offset, 8)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = int(bytes[i]) << v
@@ -246,7 +246,7 @@ func WriteUnsignedLong(buffer *[]byte, int uint64) {
 	var v uint
 	len2 := uint(8)
 	v = uint(len2*8)-8
-	for i = 0; i < len2 * 8; i += 8 {
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(int >> v))
 		v -= 8
 	}
@@ -258,7 +258,7 @@ func ReadUnsignedLong(buffer *[]byte, offset *int) uint64 {
 	var out int
 	bytes := Read(buffer, offset, 8)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = int(bytes[i]) << v
@@ -280,8 +280,8 @@ func WriteFloat(buffer *[]byte, float float32, endian byte) {
 	var v uint
 	x := math.Float32bits(float)
 	len2 := uint(4)
-	v = uint(len2 * 8)-8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8)-8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(x >> v))
 		v -= 8
 	}
@@ -296,7 +296,7 @@ func ReadFloat(buffer *[]byte, offset *int, endian byte) float32 {
 	var out uint32
 	bytes := Read(buffer, offset, 4)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = uint32(bytes[i]) << v
@@ -318,8 +318,8 @@ func WriteDouble(buffer *[]byte, double float64, endian byte) {
 	var v uint
 	x := math.Float64bits(double)
 	len2 := uint(8)
-	v = uint(len2 * 8)-8
-	for i = 0; i < len2 * 8; i += 8 {
+	v = uint(len2// 8)-8
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(x >> v))
 		v -= 8
 	}
@@ -334,7 +334,7 @@ func ReadDouble(buffer *[]byte, offset *int, endian byte) float64 {
 	var out uint64
 	bytes := Read(buffer, offset, 8)
 	len2 := uint(len(bytes))
-	v = uint(len2 * 8) - 8
+	v = uint(len2// 8) - 8
 	for i = 0; i < len2; i++ {
 		if i == 0 {
 			out = uint64(bytes[i]) << v
@@ -350,7 +350,7 @@ func ReadDouble(buffer *[]byte, offset *int, endian byte) float64 {
 func WriteLittleShort(buffer *[]byte, short int16) {
 	var i uint
 	len2 := uint(2)
-	for i = 0; i < len2 * 8; i += 8 {
+	for i = 0; i < len2// 8; i += 8 {
 		Write(buffer, byte(uint(short) >> i))
 	}
 }
@@ -377,7 +377,7 @@ func ReadLittleShort(buffer *[]byte, offset *int) int16 {
 func WriteLittleUnsignedShort(buffer *[]byte, short uint16) {
 	var i uint
 	len2 := 2
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(uint(short) >> i))
 	}
 }
@@ -404,7 +404,7 @@ func ReadLittleUnsignedShort(buffer *[]byte, offset *int) uint16 {
 func WriteLittleInt(buffer *[]byte, int int32) {
 	var i uint
 	len2 := 4
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(uint(int) >> i))
 	}
 }
@@ -431,7 +431,7 @@ func ReadLittleInt(buffer *[]byte, offset *int) int32 {
 func WriteLittleLong(buffer *[]byte, int int64) {
 	var i uint
 	len2 := 8
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(uint(int) >> i))
 	}
 }
@@ -458,7 +458,7 @@ func ReadLittleLong(buffer *[]byte, offset *int) int64 {
 func WriteLittleUnsignedLong(buffer *[]byte, int uint64) {
 	var i uint
 	len2 := 8
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(uint(int) >> i))
 	}
 }
@@ -486,7 +486,7 @@ func WriteLittleFloat(buffer *[]byte, f float32) {
 	var i uint
 	x := math.Float32bits(f)
 	len2 := 4
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(x >> i))
 	}
 }
@@ -514,7 +514,7 @@ func WriteLittleDouble(buffer *[]byte, double float64) {
 	var i uint
 	x := math.Float64bits(double)
 	len2 := 8
-	for i = 0; i < uint(len2) * 8; i += 8 {
+	for i = 0; i < uint(len2)// 8; i += 8 {
 		Write(buffer, byte(x >> i))
 	}
 }

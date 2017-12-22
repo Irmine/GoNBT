@@ -1,113 +1,71 @@
 package GoNBT
 
+// An end is used to indicate the end of a compound tag. An end has no payload.
 type End struct {
 	*NamedTag
 }
 
-type Byte struct {
+// A byte has a payload of 1 byte
+type Byte struct { // (byte)
 	*NamedTag
 }
 
-type Short struct {
+// A short has a payload of 2 bytes.
+type Short struct { // (int16)
 	*NamedTag
 }
 
-type Int struct {
+// An int has a payload of 4 bytes.
+type Int struct { // (int32)
 	*NamedTag
 }
 
-type Long struct {
+// A Long has a payload of 8 bytes.
+type Long struct { // (int64)
 	*NamedTag
 }
 
-type Float struct {
+// A float has a payload of 4 bytes.
+type Float struct { // (float32)
 	*NamedTag
 }
 
-type Double struct {
+// A double has a payload of 8 bytes.
+type Double struct { // (float64)
 	*NamedTag
 }
 
-type String struct {
+// A string has a variable payload, length indicated by a varInt/short
+type String struct { // (string)
 	*NamedTag
 }
 
-func NewEnd(name string) *End {
-	return &End{NewNamedTag(name, TAG_End, 0)}
-}
+func NewEnd(name string) *End { return &End{NewNamedTag(name, TAG_End, 0)} }
 
-func NewByte(name string, value byte) *Byte {
-	return &Byte{NewNamedTag(name, TAG_Byte, value)}
-}
+func NewByte(name string, value byte) *Byte { return &Byte{NewNamedTag(name, TAG_Byte, value)} }
 
-func NewShort(name string, value int16) *Short {
-	return &Short{NewNamedTag(name, TAG_Short, value)}
-}
+func NewShort(name string, value int16) *Short { return &Short{NewNamedTag(name, TAG_Short, value)} }
 
-func NewInt(name string, value int32) *Int {
-	return &Int{NewNamedTag(name, TAG_Int, value)}
-}
+func NewInt(name string, value int32) *Int { return &Int{NewNamedTag(name, TAG_Int, value)} }
 
-func NewLong(name string, value int64) *Long {
-	return &Long{NewNamedTag(name, TAG_Long, value)}
-}
+func NewLong(name string, value int64) *Long { return &Long{NewNamedTag(name, TAG_Long, value)} }
 
-func NewFloat(name string, value float32) *Float {
-	return &Float{NewNamedTag(name, TAG_Float, value)}
-}
+func NewFloat(name string, value float32) *Float { return &Float{NewNamedTag(name, TAG_Float, value)} }
 
-func NewDouble(name string, value float64) *Double {
-	return &Double{NewNamedTag(name, TAG_Double, value)}
-}
+func NewDouble(name string, value float64) *Double { return &Double{NewNamedTag(name, TAG_Double, value)} }
 
-func NewString(name, value string) *String {
-	return &String{NewNamedTag(name, TAG_String, value)}
-}
+func NewString(name, value string) *String { return &String{NewNamedTag(name, TAG_String, value)} }
 
-/**
- * Reads a byte into the tag.
- */
-func (tag *Byte) Read(reader *NBTReader) {
-	tag.value = reader.GetByte()
-}
+func (tag *Byte) Read(reader *NBTReader) { tag.value = reader.GetByte() }
 
-/**
- * Reads an int16 into the short tag.
- */
-func (tag *Short) Read(reader *NBTReader) {
-	tag.value = reader.GetShort()
-}
+func (tag *Short) Read(reader *NBTReader) { tag.value = reader.GetShort() }
 
-/**
- * Reads a (var)int32 into the tag.
- */
-func (tag *Int) Read(reader *NBTReader) {
-	tag.value = reader.GetInt()
-}
+func (tag *Int) Read(reader *NBTReader) { tag.value = reader.GetInt() }
 
-/**
- * Reads a (var)int64 into the tag.
- */
-func (tag *Long) Read(reader *NBTReader) {
-	tag.value = reader.GetLong()
-}
+func (tag *Long) Read(reader *NBTReader) { tag.value = reader.GetLong() }
 
-/**
- * Reads a float32 into the tag.
- */
-func (tag *Float) Read(reader *NBTReader) {
-	tag.value = reader.GetFloat()
-}
-/**
- * Reads a float64 into the tag.
- */
-func (tag *Double) Read(reader *NBTReader) {
-	tag.value = reader.GetDouble()
-}
+func (tag *Float) Read(reader *NBTReader) { tag.value = reader.GetFloat() }
 
-/**
- * Reads a string into the tag.
- */
-func (tag *String) Read(reader *NBTReader) {
-	tag.value = reader.GetString()
-}
+func (tag *Double) Read(reader *NBTReader) { tag.value = reader.GetDouble() }
+
+func (tag *String) Read(reader *NBTReader) { tag.value = reader.GetString() }

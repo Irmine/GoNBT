@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// A compound has a map of name => tag, and is the base for any NBT structure.
 type Compound struct {
 	*NamedTag
 	tags map[string]INamedTag
@@ -14,9 +15,8 @@ func NewCompound(name string, tags map[string]INamedTag) *Compound {
 	return &Compound{NewNamedTag(name, TAG_Compound, nil), tags}
 }
 
-/**
- * Reads the data of of the reader into the Compound.
- */
+
+// Read reads the data of the reader into the Compound.
 func (compound *Compound) Read(reader *NBTReader) {
 	for {
 		var tag = reader.GetTag()
@@ -27,17 +27,15 @@ func (compound *Compound) Read(reader *NBTReader) {
 	}
 }
 
-/**
- * Checks if the compound has a tag with the given name.
- */
+
+// HasTag checks if the compound has a tag with the given name.
 func (compound *Compound) HasTag(name string) bool {
 	var _, exists = compound.tags[name]
 	return exists
 }
 
-/**
- * Checks if the compound has a tag with the given name and type.
- */
+
+// HasTagWithType checks if the compound has a tag with the given name and type.
 func (compound *Compound) HasTagWithType(name string, tagType byte) bool {
 	if !compound.HasTag(name) {
 		return false
@@ -46,9 +44,8 @@ func (compound *Compound) HasTagWithType(name string, tagType byte) bool {
 	return tag.IsOfType(tagType)
 }
 
-/**
- * Returns a tag with the given name.
- */
+
+// GetTag returns a tag with the given name.
 func (compound *Compound) GetTag(name string) INamedTag {
 	if !compound.HasTag(name) {
 		return nil
@@ -56,31 +53,27 @@ func (compound *Compound) GetTag(name string) INamedTag {
 	return compound.tags[name]
 }
 
-/**
- * Sets a tag.
- */
+
+// SetTag sets a tag in the compound.
 func (compound *Compound) SetTag(tag INamedTag) {
 	compound.tags[tag.GetName()] = tag
 }
 
-/**
- * Returns all compound tags in a name => tag map.
- */
+
+// GetTags returns all compound tags in a name => tag map.
 func (compound *Compound) GetTags() map[string]INamedTag {
 	return compound.tags
 }
 
-/**
- * Sets a tag with the given name to the given byte.
- */
+
+// SetByte sets a tag with the given name to the given byte.
 func (compound *Compound) SetByte(name string, value byte) {
 	compound.tags[name] = NewByte(name, value)
 }
 
-/**
- * Returns a byte from the tag with the given name.
- * If a byte tag with the name does not exist, it returns the default value.
- */
+
+// GetByte returns a byte from the tag with the given name.
+// If a byte tag with the name does not exist, it returns the default value.
 func (compound *Compound) GetByte(name string, defaultValue byte) byte {
 	if !compound.HasTagWithType(name, TAG_Byte) {
 		return defaultValue
@@ -88,17 +81,15 @@ func (compound *Compound) GetByte(name string, defaultValue byte) byte {
 	return compound.GetTag(name).Interface().(byte)
 }
 
-/**
- * Sets a tag with the given name to the given int16.
- */
+
+// SetShort sets a tag with the given name to the given int16.
 func (compound *Compound) SetShort(name string, value int16) {
 	compound.tags[name] = NewShort(name, value)
 }
 
-/**
- * Returns a short from the tag with the given name.
- * If a short tag with the name does not exist, it returns the default value.
- */
+
+// GetShort returns a short from the tag with the given name.
+// If a short tag with the name does not exist, it returns the default value.
 func (compound *Compound) GetShort(name string, defaultValue int16) int16 {
 	if !compound.HasTagWithType(name, TAG_Short) {
 		return defaultValue
@@ -106,16 +97,14 @@ func (compound *Compound) GetShort(name string, defaultValue int16) int16 {
 	return compound.GetTag(name).Interface().(int16)
 }
 
-/**
- * Sets a tag with the given name to the given int32.
- */
+
+// SetInt sets a tag with the given name to the given int32.
 func (compound *Compound) SetInt(name string, value int32) {
 	compound.tags[name] = NewInt(name, value)
 }
 
-/**
- * Returns an int32 in an int tag with the given name.
- */
+
+// GetInt returns an int32 in an int tag with the given name.
 func (compound *Compound) GetInt(name string, defaultValue int32) int32 {
 	if !compound.HasTagWithType(name, TAG_Int) {
 		return defaultValue
@@ -123,16 +112,14 @@ func (compound *Compound) GetInt(name string, defaultValue int32) int32 {
 	return compound.GetTag(name).Interface().(int32)
 }
 
-/**
- * Sets a tag with the given name to the given int64.
- */
+
+// SetLong sets a tag with the given name to the given int64.
 func (compound *Compound) SetLong(name string, value int64) {
 	compound.tags[name] = NewLong(name, value)
 }
 
-/**
- * Returns an int64 in a long tag with the given name.
- */
+
+// GetLong returns an int64 in a long tag with the given name.
 func (compound *Compound) GetLong(name string, defaultValue int64) int64 {
 	if !compound.HasTagWithType(name, TAG_Long) {
 		return defaultValue
@@ -140,16 +127,14 @@ func (compound *Compound) GetLong(name string, defaultValue int64) int64 {
 	return compound.GetTag(name).Interface().(int64)
 }
 
-/**
- * Sets a tag with the given name to the given float32.
- */
+
+// SetFloat sets a tag with the given name to the given float32.
 func (compound *Compound) SetFloat(name string, value float32) {
 	compound.tags[name] = NewFloat(name, value)
 }
 
-/**
- * Returns a float32 in a float tag with the given name.
- */
+
+// GetFloat returns a float32 in a float tag with the given name.
 func (compound *Compound) GetFloat(name string, defaultValue float32) float32 {
 	if !compound.HasTagWithType(name, TAG_Float) {
 		return defaultValue
@@ -157,16 +142,14 @@ func (compound *Compound) GetFloat(name string, defaultValue float32) float32 {
 	return compound.GetTag(name).Interface().(float32)
 }
 
-/**
- * Sets a tag with the given name to the given float64.
- */
+
+// SetDouble sets a tag with the given name to the given float64.
 func (compound *Compound) SetDouble(name string, value float64) {
 	compound.tags[name] = NewDouble(name, value)
 }
 
-/**
- * Returns a float64 in a float tag with the given name.
- */
+
+// GetDouble returns a float64 in a float tag with the given name.
 func (compound *Compound) GetDouble(name string, defaultValue float64) float64 {
 	if !compound.HasTagWithType(name, TAG_Double) {
 		return defaultValue
@@ -174,16 +157,14 @@ func (compound *Compound) GetDouble(name string, defaultValue float64) float64 {
 	return compound.GetTag(name).Interface().(float64)
 }
 
-/**
- * Sets a tag with the given name to the given string.
- */
+
+// SetString sets a tag with the given name to the given string.
 func (compound *Compound) SetString(name string, value string) {
 	compound.tags[name] = NewString(name, value)
 }
 
-/**
- * Returns a string in a string tag with the given name.
- */
+
+// GetString returns a string in a string tag with the given name.
 func (compound *Compound) GetString(name string, defaultValue string) string {
 	if !compound.HasTagWithType(name, TAG_String) {
 		return defaultValue
@@ -191,17 +172,15 @@ func (compound *Compound) GetString(name string, defaultValue string) string {
 	return compound.GetTag(name).Interface().(string)
 }
 
-/**
- * Sets a list with the given name.
- */
+
+// SetList sets a list with the given name.
 func (compound *Compound) SetList(name string, tagType byte, value []INamedTag) {
 	compound.tags[name] = NewList(name, tagType, value)
 }
 
-/**
- * Returns a list with the given name and tag type.
- * If a list with that name and/or tag type does not exist, returns nil.
- */
+
+// GetList returns a list with the given name and tag type.
+// If a list with that name and/or tag type does not exist, returns nil.
 func (compound *Compound) GetList(name string, tagType byte) *List {
 	if !compound.HasTagWithType(name, TAG_List) {
 		return nil
@@ -213,17 +192,15 @@ func (compound *Compound) GetList(name string, tagType byte) *List {
 	return list
 }
 
-/**
- * Sets a compound with the given name.
- */
+
+// SetCompound sets a compound with the given name.
 func (compound *Compound) SetCompound(name string, value map[string]INamedTag) {
 	compound.tags[name] = NewCompound(name, value)
 }
 
-/**
- * Returns a compound with the given name.
- * If a compound with that name doesn't exist, returns nil.
- */
+
+// GetCompound returns a compound with the given name.
+// If a compound with that name doesn't exist, returns nil.
 func (compound *Compound) GetCompound(name string) *Compound {
 	if !compound.HasTagWithType(name, TAG_Compound) {
 		return nil
@@ -231,16 +208,14 @@ func (compound *Compound) GetCompound(name string) *Compound {
 	return compound.tags[name].(*Compound)
 }
 
-/**
- * Returns the compound as an interface.
- */
+
+// Interface returns the compound as an interface.
 func (compound *Compound) Interface() interface{} {
 	return compound.tags
 }
 
-/**
- * Converts the entire compound to a readable string. Nesting level is used to indicate indentation.
- */
+
+// toString converts the entire compound to a readable string. Nesting level is used to indicate indentation.
 func (compound *Compound) toString(nestingLevel int) string {
 	var str = strings.Repeat(" ", nestingLevel * 2)
 	var entries = " entries"
@@ -267,9 +242,9 @@ func (compound *Compound) toString(nestingLevel int) string {
 	return str
 }
 
-/**
- * Converts the entire compound to an uncompressed string.
- */
+
+// ToString converts the entire compound to an uncompressed string.
+
 func (compound *Compound) ToString() string {
 	return compound.toString(0)
 }

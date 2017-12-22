@@ -22,53 +22,48 @@ type NamedTag struct {
 	name string
 }
 
+
+// NewNamedTag returns a new tag with given name, tag and value.
 func NewNamedTag(name string, tagType byte, value interface{}) *NamedTag {
 	return &NamedTag{&Tag{tagType, value}, name}
 }
 
-/**
- * Returns the tag type of this tag.
- */
+
+// GetTagType returns the tag type of a tag.
 func (tag *Tag) GetTagType() byte {
 	return tag.tagType
 }
 
-/**
- * Checks if the tag has the same type as the given type.
- */
+
+// IsOfType checks if the tag has the same type as the given type.
 func (tag *Tag) IsOfType(tagType byte) bool {
 	return tag.tagType == tagType
 }
 
-/**
- * Checks if the tag has the same type as the given tag.
- */
+
+// IsCompatibleWith checks if the tag has the same type as the given tag.
 func (tag *Tag) IsCompatibleWith(namedTag INamedTag) bool {
 	return tag.tagType == namedTag.GetTagType()
 }
 
-/**
- * Returns the value of this tag.
- */
+
+// Interface returns the value of this tag.
 func (tag *Tag) Interface() interface{} {
 	return tag.value
 }
 
-/**
- * Reads data into the tag.
- */
+
+// Read reads data into the tag from the NBT reader.
 func (tag *Tag) Read(*NBTReader) {}
 
-/**
- * Returns the name of this named tag.
- */
+
+// GetName returns the name of the tag.
 func (tag *NamedTag) GetName() string {
 	return tag.name
 }
 
-/**
- * Converts the tag to readable string.
- */
+
+// ToString converts the tag to readable string.
 func (tag *NamedTag) ToString() string {
 	return GetTagName(tag.GetTagType()) + "('" + tag.GetName() + "'): " + fmt.Sprint(tag.value) + "\n"
 }

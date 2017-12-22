@@ -32,9 +32,8 @@ var tagNames = map[byte]string{
 	TAG_Long_Array: "TAG_Long_Array",
 }
 
-/**
- * Gets a tag by the given ID with the given name.
- */
+
+// GetTagById gets a tag by the given ID with the given name.
 func GetTagById(tagId byte, name string) INamedTag {
 	switch tagId {
 	case TAG_End:
@@ -67,9 +66,8 @@ func GetTagById(tagId byte, name string) INamedTag {
 	return nil
 }
 
-/**
- * Returns the tag name associated with the given ID.
- */
+
+// GetTagName returns the tag name associated with the given ID.
 func GetTagName(tagId byte) string {
 	return tagNames[tagId]
 }

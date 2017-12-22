@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// A List contains an array with tags of the same type.
 type List struct {
 	*NamedTag
 	tags []INamedTag
@@ -20,55 +21,48 @@ func (list *List) Read(reader *NBTReader) {
 
 }
 
-/**
- * Returns all tags in this list.
- */
+
+// GetTags returns all tags in this list.
 func (list *List) GetTags() []INamedTag {
 	return list.tags
 }
 
-/**
- * Returns the tag type of this list.
- */
+
+// GetTagType returns the tag type of this list.
 func (list *List) GetTagType() byte {
 	return list.tagType
 }
 
-/**
- * Returns a tag at the given offset in the list.
- */
+
+// GetTag returns a tag at the given offset in the list.
 func (list *List) GetTag(offset int) INamedTag {
 	return list.tags[offset]
 }
 
-/**
- * Adds a tag to the list.
- */
+
+// AddTag Adds a tag to the list.
 func (list *List) AddTag(tag INamedTag) {
 	list.tags = append(list.tags, tag)
 }
 
-/**
- * Pops the last tag off the list.
- */
+
+// Pop pushes the last tag off the list.
 func (list *List) Pop() INamedTag {
 	var tag = list.tags[len(list.tags) - 1]
 	list.tags = list.tags[:len(list.tags) - 2]
 	return tag
 }
 
-/**
- * Shifts the first tag off the list.
- */
+
+// Shift pushes the first tag off the list.
 func (list *List) Shift() INamedTag {
 	var tag = list.tags[0]
 	list.tags = list.tags[1:]
 	return tag
 }
 
-/**
- * Deletes a tag at the given offset and rearranges the list.
- */
+
+// DeleteAtOffset deletes a tag at the given offset and rearranges the list.
 func (list *List) DeleteAtOffset(offset int) {
 	if offset > len(list.tags) - 1 || offset < 0 {
 		return
@@ -77,9 +71,8 @@ func (list *List) DeleteAtOffset(offset int) {
 	list.tags = append(list.tags[:offset], list.tags[offset + 1:]...)
 }
 
-/**
- * Converts the entire list to a readable string. Nesting level is used to indicate indentation.
- */
+
+// ToString converts the entire list to a readable string. Nesting level is used to indicate indentation.
 func (list *List) toString(nestingLevel int) string {
 	var str = strings.Repeat(" ", nestingLevel * 2)
 	var entries = " entries"
