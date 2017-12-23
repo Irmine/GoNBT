@@ -8,6 +8,7 @@ import (
 )
 
 // A List contains an array with tags of the same type.
+// It is prefixed with the list length, and contains only payloads of tags inside of it.
 type List struct {
 	*NamedTag
 	tags []INamedTag

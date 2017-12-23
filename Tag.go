@@ -2,6 +2,8 @@ package GoNBT
 
 import "fmt"
 
+// INamedTag is an interface used to define a named tag.
+// It used throughout the entire package, and every tag satisfies this interface.
 type INamedTag interface {
 	GetType() byte
 	ToString() string
@@ -13,11 +15,14 @@ type INamedTag interface {
 	Write(*NBTWriter)
 }
 
+// Tag lays the base functionality of a tag.
 type Tag struct {
 	tagType byte
 	value interface{}
 }
 
+// NamedTag is the base struct of all tags.
+// Every tag has this struct embedded.
 type NamedTag struct {
 	*Tag
 	name string

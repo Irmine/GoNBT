@@ -1,5 +1,6 @@
 package GoNBT
 
+// All tag types.
 const (
 	TAG_End byte = iota
 	TAG_Byte
@@ -16,6 +17,7 @@ const (
 	TAG_Long_Array
 )
 
+// A map of tag type => tag name to convert types to names.
 var tagNames = map[byte]string{
 	TAG_End: "TAG_End",
 	TAG_Byte: "TAG_Byte",

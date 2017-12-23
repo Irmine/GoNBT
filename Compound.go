@@ -6,6 +6,7 @@ import (
 )
 
 // A compound has a map of name => tag, and is the base for any NBT structure.
+// Compounds are suffixed with a TAG_End, which indicates the end of the tag.
 type Compound struct {
 	*NamedTag
 	tags map[string]INamedTag

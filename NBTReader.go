@@ -6,6 +6,9 @@ import (
 	"io/ioutil"
 )
 
+// The NBTReader is used for reading compressed/uncompressed NBT into a compound.
+// Network can be set to true to compact values, so ints become varints for example.
+// EndianType should be either LittleEndian (0) or BigEndian (1), depending on the byte order of the NBT read.
 type NBTReader struct {
 	*BinaryStream
 }

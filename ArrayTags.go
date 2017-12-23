@@ -3,18 +3,21 @@ package GoNBT
 import "fmt"
 
 // A byte array holds an array filled with bytes.
+// The payload is prefixed with an integer indicating the length.
 type ByteArray struct {
 	*NamedTag
 	values []byte
 }
 
 // An int array holds an array filled with int32s.
+// The payload is prefixed with an integer indicating the length.
 type IntArray struct {
 	*NamedTag
 	values []int32
 }
 
 // A long array holds an array filled with int64s.
+// The payload is prefixed with an integer indicating the length.
 type LongArray struct {
 	*NamedTag
 	values []int64

@@ -5,7 +5,7 @@ type End struct {
 	*NamedTag
 }
 
-// A byte has a payload of 1 byte
+// A byte has a payload of 1 byte.
 type Byte struct { // (byte)
 	*NamedTag
 }
@@ -20,7 +20,7 @@ type Int struct { // (int32)
 	*NamedTag
 }
 
-// A Long has a payload of 8 bytes.
+// A long has a payload of 8 bytes.
 type Long struct { // (int64)
 	*NamedTag
 }
@@ -35,7 +35,7 @@ type Double struct { // (float64)
 	*NamedTag
 }
 
-// A string has a variable payload, length indicated by a varInt/short
+// A string has a variable payload, length indicated by a varInt/short, depending on the network field.
 type String struct { // (string)
 	*NamedTag
 }

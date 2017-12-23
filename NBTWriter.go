@@ -5,6 +5,9 @@ import (
 	"compress/gzip"
 )
 
+// The NBTWriter is used to write compounds. (compressed)
+// Network can be set to true to compact values, so ints become varints for example.
+// EndianType should be either LittleEndian (0) or BigEndian (1), depending on the byte order the NBT should be written.
 type NBTWriter struct {
 	*BinaryStream
 }
