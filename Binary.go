@@ -7,6 +7,8 @@ import (
 	"math"
 )
 
+// The endianType field indicates whether to write in LittleEndian or BigEndian.
+// LittleEndian is reverse byte order, BigEndian is normal byte order.
 const (
 	LittleEndian = iota
 	BigEndian

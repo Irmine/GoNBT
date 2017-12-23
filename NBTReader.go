@@ -1,3 +1,4 @@
+// A Go package for reading/writing and manipulating NBT.
 package GoNBT
 
 import (

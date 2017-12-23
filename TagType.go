@@ -1,6 +1,6 @@
 package GoNBT
 
-// All tag types.
+// These are all tag types in NBT.
 const (
 	TAG_End byte = iota
 	TAG_Byte
