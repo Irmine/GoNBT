@@ -1,5 +1,7 @@
 package GoNBT
 
+import "fmt"
+
 // A byte array holds an array filled with bytes.
 type ByteArray struct {
 	*NamedTag
@@ -70,4 +72,16 @@ func (tag *LongArray) Write(writer *NBTWriter) {
 	for _, value := range tag.values {
 		writer.PutLong(value)
 	}
+}
+
+func (tag *ByteArray) ToString() string {
+	return GetTagName(tag.GetType()) + "('" + tag.GetName() + "'): [" + fmt.Sprint(len(tag.values)) + " bytes]\n"
+}
+
+func (tag *IntArray) ToString() string {
+	return GetTagName(tag.GetType()) + "('" + tag.GetName() + "'): [" + fmt.Sprint(len(tag.values)) + " integers]\n"
+}
+
+func (tag *LongArray) ToString() string {
+	return GetTagName(tag.GetType()) + "('" + tag.GetName() + "'): [" + fmt.Sprint(len(tag.values)) + " longs]\n"
 }

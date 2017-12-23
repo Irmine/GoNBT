@@ -188,6 +188,51 @@ func (compound *Compound) GetString(name string, defaultValue string) string {
 }
 
 
+// SetByteArray sets a tag with the given name to the given byte array.
+func (compound *Compound) SetByteArray(name string, value []byte) {
+	compound.tags[name] = NewByteArray(name, value)
+}
+
+
+// GetByteArray returns a byte array in tag with the given name, or the default if none was found.
+func (compound *Compound) GetByteArray(name string, defaultValue []byte) []byte {
+	if !compound.HasTagWithType(name, TAG_Byte_Array) {
+		return defaultValue
+	}
+	return compound.GetTag(name).Interface().([]byte)
+}
+
+
+// SetIntArray sets a tag with the given name to the given int32 array.
+func (compound *Compound) SetIntArray(name string, value []int32) {
+	compound.tags[name] = NewIntArray(name, value)
+}
+
+
+// GetIntArray returns a int32 array in tag with the given name, or the default if none was found.
+func (compound *Compound) GetIntArray(name string, defaultValue []int32) []int32 {
+	if !compound.HasTagWithType(name, TAG_Int_Array) {
+		return defaultValue
+	}
+	return compound.GetTag(name).Interface().([]int32)
+}
+
+
+// SetLongArray sets a tag with the given name to the given int64 array.
+func (compound *Compound) SetLongArray(name string, value []int64) {
+	compound.tags[name] = NewLongArray(name, value)
+}
+
+
+// GetLongArray returns a int64 array in tag with the given name, or the default if none was found.
+func (compound *Compound) GetLongArray(name string, defaultValue []int64) []int64 {
+	if !compound.HasTagWithType(name, TAG_Long_Array) {
+		return defaultValue
+	}
+	return compound.GetTag(name).Interface().([]int64)
+}
+
+
 // SetList sets a list with the given name.
 func (compound *Compound) SetList(name string, tagType byte, value []INamedTag) {
 	compound.tags[name] = NewList(name, tagType, value)
