@@ -3,13 +3,14 @@ package GoNBT
 import "fmt"
 
 type INamedTag interface {
-	GetTagType() byte
+	GetType() byte
 	ToString() string
 	GetName() string
 	Interface() interface{}
 	IsCompatibleWith(INamedTag) bool
 	IsOfType(byte) bool
 	Read(*NBTReader)
+	Write(*NBTWriter)
 }
 
 type Tag struct {
@@ -30,7 +31,7 @@ func NewNamedTag(name string, tagType byte, value interface{}) *NamedTag {
 
 
 // GetTagType returns the tag type of a tag.
-func (tag *Tag) GetTagType() byte {
+func (tag *Tag) GetType() byte {
 	return tag.tagType
 }
 
@@ -43,7 +44,7 @@ func (tag *Tag) IsOfType(tagType byte) bool {
 
 // IsCompatibleWith checks if the tag has the same type as the given tag.
 func (tag *Tag) IsCompatibleWith(namedTag INamedTag) bool {
-	return tag.tagType == namedTag.GetTagType()
+	return tag.tagType == namedTag.GetType()
 }
 
 
@@ -53,8 +54,12 @@ func (tag *Tag) Interface() interface{} {
 }
 
 
-// Read reads data into the tag from the NBT reader.
+// Read reads payload into the tag from the NBT reader.
 func (tag *Tag) Read(*NBTReader) {}
+
+
+// Write writes payload from the tag into the buffer of the NBT writer.
+func (tag *Tag) Write(*NBTWriter) {}
 
 
 // GetName returns the name of the tag.
@@ -65,5 +70,5 @@ func (tag *NamedTag) GetName() string {
 
 // ToString converts the tag to readable string.
 func (tag *NamedTag) ToString() string {
-	return GetTagName(tag.GetTagType()) + "('" + tag.GetName() + "'): " + fmt.Sprint(tag.value) + "\n"
+	return GetTagName(tag.GetType()) + "('" + tag.GetName() + "'): " + fmt.Sprint(tag.value) + "\n"
 }

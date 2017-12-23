@@ -1,6 +1,7 @@
 package GoNBT
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -30,6 +31,17 @@ func (list *List) Read(reader *NBTReader) {
 }
 
 
+// Write writes the payload of all tags to the writer.
+func (list *List) Write(writer *NBTWriter) {
+	writer.PutByte(list.GetTagType())
+	writer.PutInt(int32(len(list.tags)))
+
+	for _, tag := range list.tags {
+		tag.Write(writer)
+	}
+}
+
+
 // GetTags returns all tags in this list.
 func (list *List) GetTags() []INamedTag {
 	return list.tags
@@ -49,8 +61,13 @@ func (list *List) GetTag(offset int) INamedTag {
 
 
 // AddTag Adds a tag to the list.
-func (list *List) AddTag(tag INamedTag) {
+// Returns an error if a tag with an invalid type was given.
+func (list *List) AddTag(tag INamedTag) error {
+	if tag.GetType() != list.GetTagType() {
+		return errors.New("invalid tag for list")
+	}
 	list.tags = append(list.tags, tag)
+	return nil
 }
 
 
@@ -99,7 +116,7 @@ func (list *List) toString(nestingLevel int) string {
 				str += compound.toString(nestingLevel + 1, true)
 			} else {
 				str += strings.Repeat(" ", (nestingLevel + 1) * 2)
-				str += GetTagName(tag.GetTagType()) + "(None): " + fmt.Sprint(tag.Interface()) + "\n"
+				str += GetTagName(tag.GetType()) + "(None): " + fmt.Sprint(tag.Interface()) + "\n"
 			}
 		}
 	}

@@ -1,25 +1,48 @@
 package GoNBT
 
+import (
+	"bytes"
+	"compress/gzip"
+	"io/ioutil"
+)
+
 type NBTReader struct {
 	*BinaryStream
-	network bool
-	endianType byte
 }
 
 func NewNBTReader(buffer []byte, network bool, endianType byte) *NBTReader {
-	return &NBTReader{NewStream(buffer, network, endianType), network, endianType & 0x01}
+	return &NBTReader{NewStream(buffer, network, endianType & 0x01)}
 }
 
 
-// ReadIntoCompound reads the entire buffer into a Compound.
+// ReadUncompressedIntoCompound reads an entire uncompressed NBT buffer into a Compound.
 // Returns nil if the first tag was not a compound.
-func (reader *NBTReader) ReadIntoCompound() *Compound {
+func (reader *NBTReader) ReadUncompressedIntoCompound() *Compound {
 	var tag = reader.GetTag()
 	if compound, ok := tag.(*Compound); ok {
 		compound.Read(reader)
 		return compound
 	}
 	return nil
+}
+
+// ReadIntoCompound reads the entire NBT buffer into a compound.
+// If the buffer is gzip compressed, it will decompress it.
+// This function returns either a compound or nil, when the NBT is not valid.
+func (reader *NBTReader) ReadIntoCompound() *Compound {
+	var gz, err = gzip.NewReader(bytes.NewBuffer(reader.Buffer))
+	if err != nil {
+		return reader.ReadUncompressedIntoCompound()
+	}
+	defer gz.Close()
+
+	uncompressedData, err := ioutil.ReadAll(gz)
+	if err != nil {
+		return reader.ReadUncompressedIntoCompound()
+	}
+
+	reader.Buffer = uncompressedData
+	return reader.ReadUncompressedIntoCompound()
 }
 
 

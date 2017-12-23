@@ -51,7 +51,7 @@ func GetTagById(tagId byte, name string) INamedTag {
 	case TAG_Double:
 		return NewDouble(name, 0)
 	case TAG_Byte_Array:
-
+		return NewByteArray(name, []byte{})
 	case TAG_String:
 		return NewString(name, "")
 	case TAG_List:
@@ -59,9 +59,9 @@ func GetTagById(tagId byte, name string) INamedTag {
 	case TAG_Compound:
 		return NewCompound(name, map[string]INamedTag{})
 	case TAG_Int_Array:
-
+		return NewIntArray(name, []int32{})
 	case TAG_Long_Array:
-
+		return NewLongArray(name, []int64{})
 	}
 	return nil
 }

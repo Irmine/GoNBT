@@ -69,3 +69,17 @@ func (tag *Float) Read(reader *NBTReader) { tag.value = reader.GetFloat() }
 func (tag *Double) Read(reader *NBTReader) { tag.value = reader.GetDouble() }
 
 func (tag *String) Read(reader *NBTReader) { tag.value = reader.GetString() }
+
+func (tag *Byte) Write(writer *NBTWriter) { writer.PutByte(tag.value.(byte)) }
+
+func (tag *Short) Write(writer *NBTWriter) { writer.PutShort(tag.value.(int16)) }
+
+func (tag *Int) Write(writer *NBTWriter) { writer.PutInt(tag.value.(int32)) }
+
+func (tag *Long) Write(writer *NBTWriter) { writer.PutLong(tag.value.(int64)) }
+
+func (tag *Float) Write(writer *NBTWriter) { writer.PutFloat(tag.value.(float32)) }
+
+func (tag *Double) Write(writer *NBTWriter) { writer.PutDouble(tag.value.(float64)) }
+
+func (tag *String) Write(writer *NBTWriter) { writer.PutString(tag.value.(string)) }

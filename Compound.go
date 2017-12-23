@@ -23,13 +23,23 @@ func NewCompound(name string, tags map[string]INamedTag) *Compound {
 func (compound *Compound) Read(reader *NBTReader) {
 	for {
 		var tag = reader.GetTag()
-		if tag == nil || tag.GetTagType() == TAG_End {
+		if tag == nil || tag.GetType() == TAG_End {
 			return
 		}
 		tag.Read(reader)
 
 		compound.tags[tag.GetName()] = tag
 	}
+}
+
+
+// Write writes all tags of the compound into the writer.
+func (compound *Compound) Write(writer *NBTWriter) {
+	for _, tag := range compound.tags {
+		writer.PutTag(tag)
+		tag.Write(writer)
+	}
+	writer.PutTag(NewEnd(""))
 }
 
 
