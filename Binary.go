@@ -15,32 +15,27 @@ const (
 )
 
 func Read(buffer *[]byte, offset *int, length int) []byte {
+	var initialLen = len((*buffer)[*offset:])
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("Requested length:", length, ", have length:", initialLen)
+		}
+	}()
+
+	var bytes []byte
 	if length == 0 {
-		return []byte{}
+		return bytes
 	}
-	b := make([]byte, 0)
-	if *offset >= len(*buffer) {
-		fmt.Printf("An error occurred: %v", "no bytes left to read")
-		panic("Aborting...")
+
+	if length == -1 {
+		return (*buffer)[*offset:]
 	}
-	if length > 1 {
-		for i := 0; i < length; i++ {
-			b = append(b, (*buffer)[*offset])
-			*offset++
-		}
-		return b
-	} else if length == -1 {
-		for {
-			if *offset >= len(*buffer) - 1 {
-				break
-			}
-			b = append(b, (*buffer)[*offset])
-			*offset++
-		}
+
+	for i := 0; i < length; i++ {
+		bytes = append(bytes, (*buffer)[*offset])
+		*offset++
 	}
-	b = append(b, (*buffer)[*offset])
-	*offset++
-	return b
+	return bytes
 }
 
 func Write(buffer *[]byte, v byte){
@@ -134,6 +129,7 @@ func ReadUnsignedShort(buffer *[]byte, offset *int, endian byte) uint16 {
 	if endian == LittleEndian {
 		return ReadLittleUnsignedShort(buffer, offset)
 	}
+
 	var v uint
 	var i uint
 	var out int
