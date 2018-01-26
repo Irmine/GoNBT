@@ -1,10 +1,18 @@
-// A Go package for reading/writing and manipulating NBT.
+// GoNBT is a Go package for reading/writing and manipulating the NBT storage format.
+// It is used by both Minecraft Java and Bedrock Editions.
 package GoNBT
 
 import (
 	"bytes"
 	"compress/gzip"
+	"compress/zlib"
 	"io/ioutil"
+)
+
+const (
+	CompressionNone = 0
+	CompressionGzip = 1
+	CompressionZlib = 2
 )
 
 // The NBTReader is used for reading compressed/uncompressed NBT into a compound.
@@ -33,19 +41,23 @@ func (reader *NBTReader) ReadUncompressedIntoCompound() *Compound {
 // ReadIntoCompound reads the entire NBT buffer into a compound.
 // If the buffer is gzip compressed, it will decompress it.
 // This function returns either a compound or nil, when the NBT is not valid.
-func (reader *NBTReader) ReadIntoCompound() *Compound {
-	var gz, err = gzip.NewReader(bytes.NewBuffer(reader.Buffer))
-	if err != nil {
-		return reader.ReadUncompressedIntoCompound()
-	}
-	defer gz.Close()
-
-	uncompressedData, err := ioutil.ReadAll(gz)
-	if err != nil {
+func (reader *NBTReader) ReadIntoCompound(compression int) *Compound {
+	if compression == CompressionNone {
 		return reader.ReadUncompressedIntoCompound()
 	}
 
-	reader.Buffer = uncompressedData
+	var data []byte
+	if compression == CompressionGzip {
+		var gz, _ = gzip.NewReader(bytes.NewBuffer(reader.Buffer))
+		data, _ = ioutil.ReadAll(gz)
+		gz.Close()
+	} else {
+		var zl, _ = zlib.NewReader(bytes.NewBuffer(reader.Buffer))
+		data, _ = ioutil.ReadAll(zl)
+		zl.Close()
+	}
+
+	reader.Buffer = data
 	return reader.ReadUncompressedIntoCompound()
 }
 
