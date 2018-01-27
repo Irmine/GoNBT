@@ -26,12 +26,11 @@ func (writer *NBTWriter) WriteUncompressedCompound(compound *Compound) {
 
 // WriteCompressedCompound writes a compound gzip compressed.
 func (writer *NBTWriter) WriteCompressedCompound(compound *Compound) {
-	var wr = NewNBTWriter(writer.Network, writer.EndianType)
-	wr.WriteUncompressedCompound(compound)
+	writer.WriteUncompressedCompound(compound)
 
-	var buffer = bytes.NewBuffer(wr.GetBuffer())
+	var buffer = bytes.NewBuffer(writer.GetBuffer())
 	var gz = gzip.NewWriter(buffer)
-	gz.Write(wr.GetData())
+	gz.Write(writer.GetData())
 	defer gz.Close()
 
 	writer.PutBytes(buffer.Bytes())
@@ -48,5 +47,5 @@ func (writer *NBTWriter) PutTag(tag INamedTag) {
 
 // GetData returns the complete buffer/all data that has been written.
 func (writer *NBTWriter) GetData() []byte {
-	return writer.Buffer
+	return writer.GetBuffer()
 }

@@ -48,16 +48,16 @@ func (reader *NBTReader) ReadIntoCompound(compression int) *Compound {
 
 	var data []byte
 	if compression == CompressionGzip {
-		var gz, _ = gzip.NewReader(bytes.NewBuffer(reader.Buffer))
+		var gz, _ = gzip.NewReader(bytes.NewBuffer(reader.GetBuffer()))
 		data, _ = ioutil.ReadAll(gz)
 		gz.Close()
 	} else {
-		var zl, _ = zlib.NewReader(bytes.NewBuffer(reader.Buffer))
+		var zl, _ = zlib.NewReader(bytes.NewBuffer(reader.GetBuffer()))
 		data, _ = ioutil.ReadAll(zl)
 		zl.Close()
 	}
 
-	reader.Buffer = data
+	reader.SetBuffer(data)
 	return reader.ReadUncompressedIntoCompound()
 }
 
