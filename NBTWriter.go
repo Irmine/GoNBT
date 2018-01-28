@@ -41,7 +41,9 @@ func (writer *NBTWriter) WriteCompressedCompound(compound *Compound) {
 // This does not yet write payload of the tag.
 func (writer *NBTWriter) PutTag(tag INamedTag) {
 	writer.PutByte(tag.GetType())
-	writer.PutString(tag.GetName())
+	if tag.GetType() != TAG_End {
+		writer.PutString(tag.GetName())
+	}
 }
 
 

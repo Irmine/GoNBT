@@ -31,6 +31,10 @@ func (stream *LittleEndianStream) SetBuffer(Buffer []byte) { stream.Buffer = Buf
 
 func (stream *LittleEndianStream) GetBuffer() []byte { return stream.Buffer }
 
+func (stream *LittleEndianStream) GetOffset() int { return stream.Offset }
+
+func (stream *LittleEndianStream) SetOffset(offset int) { stream.Offset = offset }
+
 func (stream *LittleEndianStream) Feof() bool { return stream.Offset >= len(stream.Buffer) - 1 }
 
 func (stream *LittleEndianStream) Get(length int) []byte { return Read(&stream.Buffer, &stream.Offset, length) }
@@ -95,6 +99,10 @@ func (stream *BigEndianStream) SetBuffer(Buffer []byte) { stream.Buffer = Buffer
 
 func (stream *BigEndianStream) GetBuffer() []byte { return stream.Buffer }
 
+func (stream *BigEndianStream) GetOffset() int { return stream.Offset }
+
+func (stream *BigEndianStream) SetOffset(offset int) { stream.Offset = offset }
+
 func (stream *BigEndianStream) Feof() bool { return stream.Offset >= len(stream.Buffer) - 1 }
 
 func (stream *BigEndianStream) Get(length int) []byte { return Read(&stream.Buffer, &stream.Offset, length) }
@@ -158,6 +166,10 @@ func NewLittleEndianNetworkStream(buffer []byte) *LittleEndianNetworkStream {
 func (stream *LittleEndianNetworkStream) SetBuffer(Buffer []byte) { stream.Buffer = Buffer }
 
 func (stream *LittleEndianNetworkStream) GetBuffer() []byte { return stream.Buffer }
+
+func (stream *LittleEndianNetworkStream) GetOffset() int { return stream.Offset }
+
+func (stream *LittleEndianNetworkStream) SetOffset(offset int) { stream.Offset = offset }
 
 func (stream *LittleEndianNetworkStream) Feof() bool { return stream.Offset >= len(stream.Buffer) - 1 }
 

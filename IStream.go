@@ -1,26 +1,28 @@
 package GoNBT
 
 type IStream interface {
-	SetBuffer(Buffer []byte)
+	SetBuffer([]byte)
 	GetBuffer() []byte
+	GetOffset() int
+	SetOffset(int)
 	Feof() bool
-	Get(length int) []byte
-	PutBool(v bool)
+	Get(int) []byte
+	PutBool(bool)
 	GetBool() bool
-	PutByte(v byte)
+	PutByte(byte)
 	GetByte() byte
-	PutShort(v int16)
+	PutShort(int16)
 	GetShort() int16
-	PutInt(v int32)
+	PutInt(int32)
 	GetInt() int32
-	PutLong(v int64)
+	PutLong(int64)
 	GetLong() int64
-	PutFloat(v float32)
+	PutFloat(float32)
 	GetFloat() float32
-	PutDouble(v float64)
+	PutDouble(float64)
 	GetDouble() float64
-	PutString(v string)
+	PutString(string)
 	GetString() string
-	PutBytes(bytes []byte)
+	PutBytes([]byte)
 	ResetStream()
 }

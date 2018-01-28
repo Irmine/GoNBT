@@ -72,6 +72,10 @@ func (reader *NBTReader) GetTag() INamedTag {
 	var tagId = reader.GetByte()
 	var tagCheck = GetTagById(tagId, "")
 
+	if tagId == TAG_End {
+		return NewEnd("")
+	}
+
 	if tagCheck == nil {
 		return nil
 	}

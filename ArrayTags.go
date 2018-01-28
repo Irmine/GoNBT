@@ -37,9 +37,8 @@ func NewLongArray(name string, values []int64) *LongArray {
 
 func (tag *ByteArray) Read(reader *NBTReader) {
 	var length = reader.GetInt()
-	for i := int32(0); i < length; i++ {
-		tag.values = append(tag.values, reader.GetByte())
-	}
+	tag.values = reader.GetBuffer()[reader.GetOffset():reader.GetOffset() + int(length)]
+	reader.SetOffset(reader.GetOffset() + int(length))
 }
 
 func (tag *IntArray) Read(reader *NBTReader) {

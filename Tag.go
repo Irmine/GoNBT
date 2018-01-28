@@ -8,7 +8,9 @@ type INamedTag interface {
 	GetType() byte
 	ToString() string
 	GetName() string
+	setName(string)
 	Interface() interface{}
+	setValue(interface{})
 	IsCompatibleWith(INamedTag) bool
 	IsOfType(byte) bool
 	Read(*NBTReader)
@@ -59,6 +61,12 @@ func (tag *Tag) Interface() interface{} {
 }
 
 
+// setValue sets the value of this tag.
+func (tag *Tag) setValue(value interface{}) {
+	tag.value = value
+}
+
+
 // Read reads payload into the tag from the NBT reader.
 func (tag *Tag) Read(*NBTReader) {}
 
@@ -70,6 +78,12 @@ func (tag *Tag) Write(*NBTWriter) {}
 // GetName returns the name of the tag.
 func (tag *NamedTag) GetName() string {
 	return tag.name
+}
+
+
+// setName sets the name of the tag.
+func (tag *NamedTag) setName(name string) {
+	tag.name = name
 }
 
 
