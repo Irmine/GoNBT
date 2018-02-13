@@ -87,3 +87,15 @@ func (tag *IntArray) ToString() string {
 func (tag *LongArray) ToString() string {
 	return GetTagName(tag.GetType()) + "('" + tag.GetName() + "'): [" + fmt.Sprint(len(tag.values)) + " longs]\n"
 }
+
+func (tag *ByteArray) Interface() interface{} {
+	return tag.values
+}
+
+func (tag *IntArray) Interface() interface{} {
+	return tag.values
+}
+
+func (tag *LongArray) Interface() interface{} {
+	return tag.values
+}
