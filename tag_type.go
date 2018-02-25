@@ -1,8 +1,8 @@
-package GoNBT
+package gonbt
 
 // These are all tag types in NBT.
 const (
-	TAG_End byte = iota
+	TAG_End        byte = iota
 	TAG_Byte
 	TAG_Short
 	TAG_Int
@@ -19,21 +19,20 @@ const (
 
 // A map of tag type => tag name to convert types to names.
 var tagNames = map[byte]string{
-	TAG_End: "TAG_End",
-	TAG_Byte: "TAG_Byte",
-	TAG_Short: "TAG_Short",
-	TAG_Int: "TAG_Int",
-	TAG_Long: "TAG_Long",
-	TAG_Float: "TAG_Float",
-	TAG_Double: "TAG_Double",
+	TAG_End:        "TAG_End",
+	TAG_Byte:       "TAG_Byte",
+	TAG_Short:      "TAG_Short",
+	TAG_Int:        "TAG_Int",
+	TAG_Long:       "TAG_Long",
+	TAG_Float:      "TAG_Float",
+	TAG_Double:     "TAG_Double",
 	TAG_Byte_Array: "TAG_Byte_Array",
-	TAG_String: "TAG_String",
-	TAG_List: "TAG_List",
-	TAG_Compound: "TAG_Compound",
-	TAG_Int_Array: "TAG_Int_Array",
+	TAG_String:     "TAG_String",
+	TAG_List:       "TAG_List",
+	TAG_Compound:   "TAG_Compound",
+	TAG_Int_Array:  "TAG_Int_Array",
 	TAG_Long_Array: "TAG_Long_Array",
 }
-
 
 // GetTagById gets a tag by the given ID with the given name.
 func GetTagById(tagId byte, name string) INamedTag {
@@ -67,7 +66,6 @@ func GetTagById(tagId byte, name string) INamedTag {
 	}
 	return nil
 }
-
 
 // GetTagName returns the tag name associated with the given ID.
 func GetTagName(tagId byte) string {
